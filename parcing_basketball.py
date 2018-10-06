@@ -2,7 +2,6 @@ import urllib
 import urllib.request
 import os
 from bs4 import BeautifulSoup
-import csv
 from string import ascii_lowercase
 
 
@@ -22,20 +21,17 @@ for letter in ascii_lowercase:
             playerdata = ""
             playername = ""
             for data in record.findAll('td'):
-                playerdata = playerdata + "," + data.text
+                playerdata = playerdata + ";" + data.text
             if record.find('th').text != 'Player':
                 playername = playername + record.find('th').text
-                playerdatasaved = playerdatasaved + "\n" + playername + "," + \
+                playerdatasaved = playerdatasaved + "\n" + playername + ";" + \
                               playerdata[1:]
 
 
-        header = "Player, From, To, Pos, Ht, Wt, Birth, Date, College"
+        header = "Player; From; To; Pos; Ht; Wt; Birth; Date; College"
         file = open(os.path.expanduser("Basketball.csv"), "wb")
-        file.write(bytes(header, encoding="ascii", errors='ignore'))
+        file.write(bytes(header, encoding="UTF-8", errors='ignore'))
         file.write(bytes(playerdatasaved, encoding="UTF-8",
-                         errors='ignore', ))
-
+                         errors='ignore'))
     else:
         pass
-
-
